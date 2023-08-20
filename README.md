@@ -34,7 +34,6 @@ Tracking project todos:
 
 1.0 (proof of concept)
 
-* Teams - add schema, typings
 * Pull Matches
 * Add matches schema, typings
 * Structure data to send to GPT

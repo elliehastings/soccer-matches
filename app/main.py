@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 from typing import Union, Annotated
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, status as httpstatus
 from starlette.responses import RedirectResponse
 
 from app.scraper import teams
@@ -29,7 +29,9 @@ async def get_match_recommendations(
 
     if start_date < date.today() or end_date < date.today() or end_date < start_date:
         raise HTTPException(
-            status_code=404, detail="Dates must be in present or future")
+            status_code=httpstatus.HTTP_400_BAD_REQUEST,
+            detail="Dates must be in present or future"
+        )
 
     # Testing
     await teams.get()
