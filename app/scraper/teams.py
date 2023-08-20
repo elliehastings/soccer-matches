@@ -63,10 +63,7 @@ async def get():
                 soup = BeautifulSoup(markup=text, features='html.parser')
                 team_rows = parse_teams(soup)
 
-                # TESTING: print teams
-                print(team_rows)
-
-                return
+                return team_rows
 
             raise HTTPException(status_code=httpstatus.HTTP_500_INTERNAL_SERVER_ERROR,
                                 detail=f"Scrape error: received status code {response.status}")

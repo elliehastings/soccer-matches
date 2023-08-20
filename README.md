@@ -32,11 +32,9 @@ curl -X GET http://127.0.0.1:8000/match-recommendations?start_date=2023-08-19&en
 
 Tracking project todos:
 
-1.0 (proof of concept)
+1.0 (proof of concept) - remaining:
 
 * Create mapping for team name - Long Name from Table page -> short name used in Fixtures page
-* Parse and extract Matches
-* Add matches schema, typings
 * Handle matches in progress
 * Add non-GPT API
 

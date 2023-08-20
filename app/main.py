@@ -33,8 +33,9 @@ async def get_match_recommendations(
             detail="Dates must be in present or future"
         )
 
-    # Testing
+    # TODO: Get teams and matches, collapse into one dataset, and feed to recommendation engine
+    # Uncomment the below lines to run scraping and inspect the team and match results
     # await teams.get()
-    await matches.get()
+    # await matches.get()
 
     return {"start_date": start_date, "end_date": end_date}
