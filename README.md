@@ -2,19 +2,45 @@
 
 TODO - explainer!
 
+# Usage note
+
+This app makes use of web scraping to power the match recommendation results.
+
+This will ultimately be done at most a few times per day with the results cached to reduce hits to the scraped website to the minimum necessary and at or below standard human usage.
+
+However, in the current state it fetches the data on a per-request basis (unless you write and load the results to/from a file in development, which is recommended).
+
+As such any requests to the match-recommendations endpoint should be run with caution to avoid significant request load!
+
+# Running the app
+
+Run the server
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Open the provided URL in a browser or send curl commands to the URL
+
+Ex:
+
+```
+curl -X GET http://127.0.0.1:8000/match-recommendations?start_date=2023-08-19&end_date=2023-08-23
+```
+
 # TODO
 
 Tracking project todos:
 
 1.0 (proof of concept)
 
-* Create endpoint
-* Add BeautifulSoup
-* Pull Table
-* Pull Fixtures
+* Teams - add schema, typings
+* Pull Matches
+* Add matches schema, typings
 * Structure data to send to GPT
 * Call GPT to get recommendations
 * Return formatted recommendations
+* Restrict date ranges or add pagination / infinite scroll
 
 2.0
 
