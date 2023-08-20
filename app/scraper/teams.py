@@ -61,9 +61,8 @@ async def get():
     """
     async with ClientSession() as session:
         async with session.get(PREMIER_LEAGUE_TABLE_URL) as response:
-            text = await response.text()
-
             if response.status == 200:
+                text = await response.text()
                 soup = BeautifulSoup(markup=text, features='html.parser')
                 team_rows = parse_teams(soup)
 

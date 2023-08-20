@@ -4,7 +4,7 @@ from typing import Union, Annotated
 from fastapi import FastAPI, HTTPException, Query, status as httpstatus
 from starlette.responses import RedirectResponse
 
-from app.scraper import teams
+from app.scraper import teams, matches
 
 app = FastAPI()
 
@@ -34,6 +34,7 @@ async def get_match_recommendations(
         )
 
     # Testing
-    await teams.get()
+    # await teams.get()
+    await matches.get()
 
     return {"start_date": start_date, "end_date": end_date}

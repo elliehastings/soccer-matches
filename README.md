@@ -34,12 +34,19 @@ Tracking project todos:
 
 1.0 (proof of concept)
 
-* Pull Matches
+* Create mapping for team name - Long Name from Table page -> short name used in Fixtures page
+* Parse and extract Matches
 * Add matches schema, typings
+* Handle matches in progress
+* Add non-GPT API
+
+1.1 (add AI, cleanup)
+
 * Structure data to send to GPT
 * Call GPT to get recommendations
 * Return formatted recommendations
 * Restrict date ranges or add pagination / infinite scroll
+* Clean up quotes / add py linting
 
 2.0
 
