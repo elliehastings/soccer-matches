@@ -12,6 +12,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from app.models.matches import Match
+
 
 PREMIER_LEAGUE_MATCHES_URL = "https://www.premierleague.com/fixtures"
 COOKIES_ACCEPT_BUTTON_ID = "onetrust-accept-btn-handler"
@@ -55,13 +57,9 @@ def fetch_static_matches_page(driver):
     return driver.page_source
 
 
-# TODO: Match model
-def parse_matches(soup: BeautifulSoup) -> list[Any]:
+def parse_matches(soup: BeautifulSoup) -> list[Match]:
     """
     Extracts an array of Matches from the Fixtures table HTML page soup object
-
-    For example:
-    [{'display_date': 'Monday 21 August 2023', 'starts_at': datetime.datetime(2023, 8, 21, 15, 0, tzinfo=tzlocal()), 'away_team': 'Arsenal', 'home_team': 'Crystal Palace'}]
     """
 
     matches = []
@@ -95,12 +93,12 @@ def parse_matches(soup: BeautifulSoup) -> list[Any]:
             match_starts_at_date = parser.parse(
                 date_string + " " + match_start_time_string + " EST")
 
-            match = {
-                "display_date": date_string,
-                "starts_at": match_starts_at_date,
-                "away_team": away_team,
-                "home_team": home_team
-            }
+            match = Match(
+                display_date=date_string,
+                starts_at=match_starts_at_date,
+                away_team=away_team,
+                home_team=home_team
+            )
             matches.append(match)
 
     return matches

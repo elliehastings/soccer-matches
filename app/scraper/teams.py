@@ -23,9 +23,6 @@ TEAM_POINTS_CLASS = "league-table__points"
 def parse_teams(soup: BeautifulSoup) -> list[Team]:
     """
     Extracts an array of Teams from the teams table HTML page soup object
-
-    For example:
-    [{'name': 'Manchester City', 'position': 2, 'points': 6}, {'name': 'Brentford', 'position': 3, 'points': 4}]
     """
 
     teams = []
