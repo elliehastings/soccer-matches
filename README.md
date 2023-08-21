@@ -38,7 +38,7 @@ Tracking project todos:
 
 1.0 (proof of concept) - remaining:
 
-* Create mapping for team name - Long Name from Table page -> short name used in Fixtures page
+* Consolidate team and match data into one structure to use for recommendation
 * Add non-GPT API
 * Handle matches in progress
 

@@ -12,7 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from app.models.matches import Match
+from app.models.matches import Match, format_names_to_long
 
 
 PREMIER_LEAGUE_MATCHES_URL = "https://www.premierleague.com/fixtures"
@@ -109,7 +109,8 @@ def parse_matches(soup: BeautifulSoup) -> list[Match]:
             )
             matches.append(match)
 
-    return matches
+    # Ensure matches have long format to align with the Teams response
+    return [format_names_to_long(match) for match in matches]
 
 
 async def get():
@@ -126,6 +127,4 @@ async def get():
     soup = BeautifulSoup(markup=page_source, features='html.parser')
     matches = parse_matches(soup)
 
-    print(matches)
-
-    return
+    return matches
