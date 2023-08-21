@@ -1,6 +1,10 @@
 # About this app
 
-TODO - explainer!
+A FastAPI server that serves up recommendations for upcoming Premier League football (as in, soccer football ⚽️) recommendations based on the ranking of the teams on the table.
+
+There will be two options, a structured endpoint that applies the recommendation manually and an unstructured endpoint that returns the recommendation supplied by the OpenAI client.
+
+**Note**: this is a work-in-progress side project to play with FastAPI and OpenAI and is not meant for Production usage
 
 # Usage note
 
@@ -35,8 +39,8 @@ Tracking project todos:
 1.0 (proof of concept) - remaining:
 
 * Create mapping for team name - Long Name from Table page -> short name used in Fixtures page
-* Handle matches in progress
 * Add non-GPT API
+* Handle matches in progress
 
 1.1 (add AI, cleanup)
 
