@@ -45,16 +45,24 @@ def fetch_static_matches_page(driver):
     accept_cookies_button.click()
     modal_close_element = driver.find_element(
         By.ID, ADVERTISEMENT_MODAL_CLOSE_ELEMENT_ID)
-    modal_close_element.click()
 
     try:
+        # Advert modal not always visible/interactable ; sometimes present with display:none;
         WebDriverWait(driver, 3).until(
-            EC.invisibility_of_element_located((By.ID, ADVERTISEMENT_MODAL_CLOSE_ELEMENT_ID)))
-    except:
-        raise HTTPException(status_code=httpstatus.HTTP_500_INTERNAL_SERVER_ERROR,
-                            detail="Scrape error: could not bypass advert modal")
+            EC.visibility_of_element_located((By.ID, ADVERTISEMENT_MODAL_CLOSE_ELEMENT_ID)))
 
-    return driver.page_source
+        modal_close_element.click()
+
+        try:
+            WebDriverWait(driver, 3).until(
+                EC.invisibility_of_element_located((By.ID, ADVERTISEMENT_MODAL_CLOSE_ELEMENT_ID)))
+
+            return driver.page_source
+        except:
+            raise HTTPException(status_code=httpstatus.HTTP_500_INTERNAL_SERVER_ERROR,
+                                detail="Scrape error: could not bypass advert modal")
+    except:
+        return driver.page_source
 
 
 def parse_matches(soup: BeautifulSoup) -> list[Match]:
