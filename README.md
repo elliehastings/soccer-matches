@@ -1,10 +1,10 @@
 # About this app
 
-A FastAPI server that serves up recommendations for upcoming Premier League football (as in, soccer football ⚽️) recommendations based on the ranking of the teams on the table.
+A FastAPI server that serves up recommendations for upcoming Premier League football (as in, soccer football :soccer:) recommendations based on the ranking of the teams on the table.
 
 There will be two options, a structured endpoint that applies the recommendation manually and an unstructured endpoint that returns the recommendation supplied by the OpenAI client.
 
-**Note**: this is a work-in-progress side project to play with FastAPI and OpenAI and is not meant for Production usage
+**Note**: this is a **work-in-progress** side project to play with FastAPI and OpenAI and is not meant for Production usage. Features are actively in development - see below for the running roadmap!
 
 # Usage note
 
@@ -14,7 +14,7 @@ This will ultimately be done at most a few times per day with the results cached
 
 However, in the current state it fetches the data on a per-request basis (unless you write and load the results to/from a file in development, which is recommended).
 
-As such any requests to the match-recommendations endpoint should be run with caution to avoid significant request load!
+:warning: As such any requests to the match-recommendations endpoint should be run with caution to avoid significant request load!
 
 # Running the app
 
@@ -24,9 +24,14 @@ Run the server
 uvicorn app.main:app --reload
 ```
 
-Open the provided URL in a browser or send curl commands to the URL
+Open the URL outputted by uvicorn in a browser
 
-Ex:
+```
+http://127.0.0.1:8000
+http://127.0.0.1:8000/docs
+```
+
+or send curl commands to the endpoint directly
 
 ```
 curl -X GET http://127.0.0.1:8000/match-recommendations?start_date=2023-08-19&end_date=2023-08-23
@@ -54,7 +59,7 @@ Tracking project todos:
 
 * Add models and persistent storage using SQLite
 * Add background task to scrape table & fixtures for given dates once per day
-* Cache API results so we're not webscraping once per API request like monsters
+* Cache API results so we're not webscraping once per API request :grimacing:
 
 3.0
 
