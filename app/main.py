@@ -34,8 +34,11 @@ async def get_match_recommendations(
         )
 
     # TODO: Get teams and matches, collapse into one dataset, and feed to recommendation engine
-    # Uncomment the below lines to run scraping and inspect the team and match results
-    # await teams.get()
-    # await matches.get()
+    team_results = await teams.get()
+    print("teams:\n")
+    print(team_results)
+    match_results = await matches.get(team_results)
+    print("matches with teams:\n")
+    print(match_results)
 
     return {"start_date": start_date, "end_date": end_date}

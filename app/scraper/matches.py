@@ -12,7 +12,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from app.models.matches import Match, format_names_to_long
+from app.models.matches import Match
+from app.models.teams import Team
 
 
 PREMIER_LEAGUE_MATCHES_URL = "https://www.premierleague.com/fixtures"
@@ -65,7 +66,7 @@ def fetch_static_matches_page(driver):
         return driver.page_source
 
 
-def parse_matches(soup: BeautifulSoup) -> list[Match]:
+def parse_matches(soup: BeautifulSoup, teams: list[Team]) -> list[Match]:
     """
     Extracts an array of Matches from the Fixtures table HTML page soup object
     """
@@ -85,8 +86,8 @@ def parse_matches(soup: BeautifulSoup) -> list[Match]:
 
         match_rows = date_section.find_all('li', class_=MATCH_FIXTURE_CLASS)
         for match_row in match_rows:
-            away_team = match_row.attrs['data-away']
-            home_team = match_row.attrs['data-home']
+            away_team_short_name = match_row.attrs['data-away']
+            home_team_short_name = match_row.attrs['data-home']
 
             teams_element = match_row.find(
                 'span', class_="match-fixture__teams")
@@ -101,6 +102,15 @@ def parse_matches(soup: BeautifulSoup) -> list[Match]:
             match_starts_at_date = parser.parse(
                 date_string + " " + match_start_time_string + " EST")
 
+            away_team = Team(short_name=away_team_short_name)
+            home_team = Team(short_name=home_team_short_name)
+
+            for team in teams:
+                if team.short_name == away_team_short_name:
+                    away_team = team
+                if team.short_name == home_team_short_name:
+                    home_team = team
+
             match = Match(
                 display_date=date_string,
                 starts_at=match_starts_at_date,
@@ -109,11 +119,10 @@ def parse_matches(soup: BeautifulSoup) -> list[Match]:
             )
             matches.append(match)
 
-    # Ensure matches have long format to align with the Teams response
-    return [format_names_to_long(match) for match in matches]
+    return matches
 
 
-async def get():
+async def get(teams):
     """
     Obtains matches information by scraping the Premier League URL and parsing team data
     """
@@ -125,6 +134,6 @@ async def get():
     page_source = fetch_static_matches_page(driver)
 
     soup = BeautifulSoup(markup=page_source, features='html.parser')
-    matches = parse_matches(soup)
+    matches = parse_matches(soup, teams)
 
     return matches

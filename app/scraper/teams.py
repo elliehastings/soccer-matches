@@ -42,7 +42,7 @@ def parse_teams(soup: BeautifulSoup) -> list[Team]:
         points = team_row.find('td', class_=TEAM_POINTS_CLASS)
 
         team = Team(
-            name=name.get_text(),
+            long_name=name.get_text(),
             position=int(position.get_text()),
             points=int(points.get_text()),
         )
