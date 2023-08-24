@@ -1,10 +1,14 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from typing import Union, Annotated
 
 from fastapi import FastAPI, HTTPException, Query, status as httpstatus
 from starlette.responses import RedirectResponse
 
 from app.scraper import teams, matches
+from app.models.teams import Team
+from app.models.matches import Match
+from app.models.match_recommendations import MatchRecommendation
+from app.recommender.recommender import RecommenderFactory
 
 app = FastAPI()
 
@@ -19,7 +23,7 @@ async def root():
 async def get_match_recommendations(
     start_date: Annotated[Union[date, None], Query()] = None,
     end_date: Annotated[Union[date, None], Query()] = None
-):
+) -> list[MatchRecommendation]:
     DEFAULT_DAY_RANGE = 3
 
     if start_date is None:
@@ -33,12 +37,10 @@ async def get_match_recommendations(
             detail="Dates must be in present or future"
         )
 
-    # TODO: Get teams and matches, collapse into one dataset, and feed to recommendation engine
     team_results = await teams.get()
-    print("teams:\n")
-    print(team_results)
     match_results = await matches.get(team_results)
-    print("matches with teams:\n")
-    print(match_results)
 
-    return {"start_date": start_date, "end_date": end_date}
+    recommended_matches = RecommenderFactory.create_recommender(
+        "MANUAL").recommend(match_results)
+
+    return recommended_matches

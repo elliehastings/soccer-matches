@@ -32,7 +32,7 @@ def parse_teams(soup: BeautifulSoup) -> list[Team]:
     team_rows = soup.find_all(
         'tr',
         attrs={
-            "data-filtered-table-row-name": re.compile(r"^[A-Za-z\s]*$")}
+            "data-filtered-table-row-name": re.compile(r"^[A-Za-z\s\&]*$")}
     )
 
     for team_row in team_rows:

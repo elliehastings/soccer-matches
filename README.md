@@ -7,7 +7,7 @@ There will be two options, a structured endpoint that applies the recommendation
 Recommendations are based on either of two 'scores' (or possibly a combination!):
 
 1. "Closeness": Minimum difference of team points (how close are the teams on the table, and therefore how close and exciting might the game be?)
-2. "Quality": Minimum average of team points (how high up on the table are both teams?)
+2. "Quality": Maximum average of team points (how high up on the table are both teams?)
 
 **Note**: this is a **work-in-progress** side project to play with FastAPI and OpenAI and is not meant for Production usage. Features are actively in development - see below for the running roadmap!
 
@@ -50,6 +50,7 @@ Tracking project todos:
 
 * Add non-GPT API
 * Handle matches in progress
+* Date filtering - filter by input dates
 
 1.1 (add AI, cleanup)
 
