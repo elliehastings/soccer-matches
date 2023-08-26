@@ -39,7 +39,7 @@ http://127.0.0.1:8000/docs
 or send curl commands to the endpoint directly
 
 ```
-curl -X GET http://127.0.0.1:8000/match-recommendations?start_date=2023-08-19&end_date=2023-08-23
+curl -X GET http://localhost:8000/match-recommendations?start_date=2023-08-26T08:55:31.820Z&end_date=2023-08-30T00:55:31.820Z
 ```
 
 # TODO
