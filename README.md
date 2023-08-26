@@ -48,9 +48,9 @@ Tracking project todos:
 
 1.0 (proof of concept) - remaining:
 
-* Add non-GPT API
+* Recommend filtering - only return top 3 (allow limit/type args?)
+* General cleanup, docs
 * Handle matches in progress
-* Date filtering - filter by input dates
 
 1.1 (add AI, cleanup)
 

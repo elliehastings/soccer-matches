@@ -1,5 +1,7 @@
 from typing import Literal
 
+from fastapi import HTTPException, status as httpstatus
+
 from app.models.matches import Match
 from app.models.match_recommendations import MatchRecommendation
 
@@ -16,7 +18,12 @@ class Recommender:
 
         for match in matches:
             if match.away_team.points is None or match.home_team.points is None:
-                raise Exception("team(s) missing points")
+                # TODO: Might be nice to log warnings and filter these teams out instead,
+                # Or return an additional list of teams without sufficient data
+                raise HTTPException(
+                    status_code=httpstatus.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Teams without points present"
+                )
 
             closeness_value = abs(
                 match.away_team.points - match.home_team.points)

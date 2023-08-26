@@ -1,9 +1,8 @@
 # TODO: Make a scraper class for functionality?
-from datetime import datetime
-
-from typing import Any
+from datetime import date
 
 from dateutil import parser
+from dateutil.tz import gettz
 from bs4 import BeautifulSoup
 from fastapi import HTTPException, status as httpstatus
 
@@ -98,9 +97,12 @@ def parse_matches(soup: BeautifulSoup, teams: list[Team]) -> list[Match]:
             if match_start_time_elem is None:
                 continue
 
+            # TODO: support other timezones
             match_start_time_string = match_start_time_elem.attrs['datetime']
             match_starts_at_date = parser.parse(
-                date_string + " " + match_start_time_string + " EST")
+                date_string + " " + match_start_time_string + " EST",
+                tzinfos={"EST": gettz("US/Eastern")}
+            )
 
             away_team = Team(short_name=away_team_short_name)
             home_team = Team(short_name=home_team_short_name)
@@ -122,7 +124,7 @@ def parse_matches(soup: BeautifulSoup, teams: list[Team]) -> list[Match]:
     return matches
 
 
-async def get(teams):
+async def get(teams: list[Team], date_range: tuple[date, date]) -> list[Match]:
     """
     Obtains matches information by scraping the Premier League URL and parsing team data
     """
@@ -136,4 +138,7 @@ async def get(teams):
     soup = BeautifulSoup(markup=page_source, features='html.parser')
     matches = parse_matches(soup, teams)
 
-    return matches
+    filtered_matches = [
+        match for match in matches if match.starts_at > date_range[0] and match.starts_at < date_range[1]]
+
+    return filtered_matches

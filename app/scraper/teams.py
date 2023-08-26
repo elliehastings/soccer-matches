@@ -1,8 +1,6 @@
 # TODO: Make a scraper class for functionality?
 
-import os
 import re
-from typing import Any
 
 from fastapi import HTTPException, status as httpstatus
 from aiohttp import ClientSession
