@@ -9,6 +9,8 @@ from starlette.responses import RedirectResponse
 from app.scraper import teams, matches
 from app.models.match_recommendations import MatchRecommendation
 from app.recommender.recommender import RecommenderFactory
+from app.services.match_recommendations import filter_match_recommendations, ScoreTypeEnum, SortOrderEnum
+
 
 # Because our scraper runs in a browser set to EST the app only works with EST timezones
 US_EASTERN_TZ = timezone('US/Eastern')
@@ -25,7 +27,11 @@ async def root():
 @app.get("/match-recommendations")
 async def get_match_recommendations(
     start_date: Annotated[Union[datetime, None], Query()] = None,
-    end_date: Annotated[Union[datetime, None], Query()] = None
+    end_date: Annotated[Union[datetime, None], Query()] = None,
+    score_type: Annotated[ScoreTypeEnum,
+                          Query()] = ScoreTypeEnum.quality_score,
+    sort_order: Annotated[SortOrderEnum, Query()] = SortOrderEnum.asc,
+    limit: Annotated[int, Query()] = 0,
 ) -> list[MatchRecommendation]:
     DEFAULT_DAY_RANGE = 3
 
@@ -57,4 +63,7 @@ async def get_match_recommendations(
     recommended_matches = RecommenderFactory.create_recommender(
         "MANUAL").recommend(match_results)
 
-    return recommended_matches
+    filtered_match_results = filter_match_recommendations(
+        recommended_matches, score_type, (start_date_est, end_date_est), sort_order=sort_order, limit=limit)
+
+    return filtered_match_results

@@ -46,25 +46,24 @@ curl -X GET http://localhost:8000/match-recommendations?start_date=2023-08-26T08
 
 Tracking project todos:
 
-1.0 (proof of concept) - remaining:
+1.1 Cleanup
 
-* Recommend filtering - only return top 3 (allow limit/type args?)
 * General cleanup, docs
-* Handle matches in progress
-
-1.1 (add AI, cleanup)
-
-* Structure data to send to GPT
-* Call GPT to get recommendations
-* Return formatted recommendations
 * Restrict date ranges or add pagination / infinite scroll
 * Clean up quotes / add py linting
+* Handle matches in progress
 
 2.0
 
 * Add models and persistent storage using SQLite
 * Add background task to scrape table & fixtures for given dates once per day
 * Cache API results so we're not webscraping once per API request :grimacing:
+
+X (add AI, cleanup)
+
+* Structure data to send to GPT
+* Call GPT to get recommendations
+* Return formatted recommendations
 
 3.0
 
